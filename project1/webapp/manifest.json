@@ -1,0 +1,112 @@
+{
+    "_version": "1.65.0",
+    "sap.app": {
+        "id": "project1",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.16.3",
+            "toolsId": "b18861f1-1ccb-4d1e-af7e-37b0b253c54c"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.132.1",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "project1.i18n.i18n"
+                }
+            },
+            "Employees": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": "model/mockdata.json"
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "project1.view",
+                "async": true,
+                "viewPath": "project1.view"
+            },
+            "routes": [
+                {
+                    "name": "RouteView1",
+                    "pattern": "",
+                    "target": [
+                        "TargetView1"
+                    ]
+                },
+                {
+                    "pattern": "detail/{employeeID}",
+                    "name": "Detail",
+                    "target": "Detail"
+                }
+            ],
+            "targets": {
+                "TargetView1": {
+                    "viewName": "View1",
+                    "viewType": "XML",
+                    "viewId": "View1"
+                },
+                "Detail": {
+                    "viewName": "Detail",
+                    "viewType": "XML",
+                    "viewId": "detailView"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "project1.view.App",
+            "type": "XML",
+            "id": "App"
+        }
+    }
+}
