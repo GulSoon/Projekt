@@ -2,7 +2,7 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/Fragment",
     "sap/m/MessageToast",
-        "sap/ui/model/Filter",
+    "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator"
 ], (Controller, Fragment, MessageToast, Filter, FilterOperator) => {
     "use strict";
@@ -24,8 +24,9 @@ sap.ui.define([
         onInputLiveChange: function (oEvent) {
             let oInput = oEvent.getSource(),
                 sValue = oInput.getValue(),
-                phonePattern = /^\d{3}-\d{3}-\d{3}$/;  // Format: 123-456-789
-            emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Format: example@domain.com
+                phonePattern = /^\d{3}-\d{3}-\d{3}$/,  // Format: 123-456-789
+                emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Format: example@domain.com
+                peselPattern = /^[0-9]{4}[0-3]{1}[0-9]{1}[0-9]{5}$/; // Format: YYMMDDXXXXX
 
             if (oInput.getId() === this.createId("phoneInput")) {
                 if (!phonePattern.test(sValue)) {
@@ -40,6 +41,15 @@ sap.ui.define([
                 if (!emailPattern.test(sValue)) {
                     oInput.setValueState("Error");
                     oInput.setValueStateText("Invalid email format.");
+                } else {
+                    oInput.setValueState("None");
+                }
+            }
+
+            if (oInput.getId() === this.createId("peselInput")) {
+                if (!peselPattern.test(sValue)) {
+                    oInput.setValueState("Error");
+                    oInput.setValueStateText("Invalid PESEL format. Use format YYMMDDXXXXX");
                 } else {
                     oInput.setValueState("None");
                 }
@@ -74,10 +84,17 @@ sap.ui.define([
                 sLastName = oView.byId("lastNameInput").getValue(),
                 sPosition = oView.byId("positionInput").getValue(),
                 sEmail = oView.byId("emailInput").getValue(),
-                sPhone = oView.byId("phoneInput").getValue();
+                sPhone = oView.byId("phoneInput").getValue(),
+                sPesel = oView.byId("peselInput").getValue();
 
-            if (!sFirstName || !sLastName || !sPosition) {
+            if (!sFirstName || !sLastName || !sPosition || !sPesel) {
                 MessageToast.show("Please fill in required fields.");
+                return;
+            }
+
+            let peselPattern = /^[0-9]{4}[0-3]{1}[0-9]{1}[0-9]{5}$/;
+            if (!peselPattern.test(sPesel)) {
+                MessageToast.show("Invalid PESEL format");
                 return;
             }
 
@@ -88,6 +105,7 @@ sap.ui.define([
                 "Position": sPosition,
                 "Email": sEmail,
                 "Phone": sPhone,
+                "Pesel": sPesel,
                 "Description": "Newly added employee."
             };
 
@@ -113,7 +131,8 @@ sap.ui.define([
                     "lastNameInput",
                     "positionInput",
                     "emailInput",
-                    "phoneInput"
+                    "phoneInput",
+                    "peselInput"
                 ];
 
             aInputs.forEach(function (sInputId) {

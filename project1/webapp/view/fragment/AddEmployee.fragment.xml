@@ -16,6 +16,9 @@
 
                 <Label text="Phone" />
                 <Input id="phoneInput" placeholder="123-456-789" liveChange="onInputLiveChange" />
+
+                <Label text="PESEL" required="true"/>
+                <Input id="peselInput" placeholder="YYMMDDXXXXX" liveChange="onInputLiveChange" />
             </VBox>
         </content>
         <buttons>
